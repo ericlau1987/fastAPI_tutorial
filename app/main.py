@@ -103,7 +103,7 @@ def get_posts():
 #     return data
 
 @app.get("/property/property_pdf")
-def get_pdf(property: PropertyAddress):
+def get_pdf(property: PropertyAddress, response: Response):
 
     property = Property(
         no_street = property.no_street,
@@ -113,9 +113,14 @@ def get_pdf(property: PropertyAddress):
         postcode = property.postcode
     )
 
-    property_pdf_url = property.get_property_pdf_url()
-
-    return RedirectResponse(property_pdf_url)
+    has_pfi = property.check_address_exist()
+    if not has_pfi:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"the address is invalid")
+        return {"message": has_pfi}
+    else:
+        property_pdf_url = property.get_property_pdf_url()
+        return RedirectResponse(property_pdf_url)
 
 @app.get("/property/planning_pdf")
 def get_pdf(property: PropertyAddress):
@@ -128,9 +133,16 @@ def get_pdf(property: PropertyAddress):
         postcode = property.postcode
     )
 
-    planning_pdf_url = property.get_planning_pdf_url()
+    has_pfi = property.check_address_exist()
+    if not has_pfi:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"the address is invalid")
 
-    return RedirectResponse(planning_pdf_url)
+        return {"message": has_pfi}
+    else:
+        planning_pdf_url = property.get_planning_pdf_url()
+
+        return RedirectResponse(planning_pdf_url)
 
 # @app.post("/createposts")
 # def create_posts(payload: dict = Body(...)):
