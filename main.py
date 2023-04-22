@@ -1,9 +1,10 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Response, status, HTTPException
 from fastapi.params import Body
 from pydantic import BaseModel
 import json
 import urllib.request
 from typing import Optional
+from random import randrange
 
 app = FastAPI()
 
@@ -16,6 +17,7 @@ class Post(BaseModel):
     published: bool = True
     rating: Optional['int'] = None
 
+
 class PropertyAddress(BaseModel):
     no_street: int 
     street_name: str 
@@ -27,15 +29,36 @@ class PropertyAddress(BaseModel):
 # the order of the function matters
 # the api run from
 
+my_posts = [
+    {
+        "title": "title of post 11",
+        "content": " content of post 1",
+        "id": 1},
+    {
+        "title": "favorite foods",
+        "content": "I like pizza",
+        "id": 2}
+]
+
+def find_post(id):
+    for p in my_posts:
+        if p["id"] == id:
+            return p
+        
+def find_index_post(id):
+    for i, p in enumerate(my_posts):
+        if p["id"] == id:
+            return i
+
 @app.get("/") # decorator
 async def root():
     return {"message": "Hello world"}
 
 @app.get("/posts")
 def get_posts():
-    return {"data": "This is your posts"}
+    return {"data": my_posts}
 
-"""
+
 @app.get("/key")
 def get_key(property: PropertyAddress):
     no_street = property.no_street
@@ -48,6 +71,8 @@ def get_key(property: PropertyAddress):
     key = json.loads(res.decode('utf-8'))[0]["key"]
     pfi = urllib.request.urlopen(f'https://www.land.vic.gov.au/property-report/property-dashboard2/get_street_key.json?query={key}').read()
     pfi = json.loads(pfi.decode('utf-8'))['pfi']
+    search_website = f'https://www.land.vic.gov.au/property-report?property={no_street}+{street_name}+{street_type}+{suburb}+{pfi}%2C{key}'
+    _ = urllib.request.urlopen(f'https://www.land.vic.gov.au/property-report?property={no_street}+{street_name}+{street_type}+{suburb}+{pfi}%2C{key}')
     detailed_property_report_url = f'https://production-detailed-report-pdf.s3-ap-southeast-2.amazonaws.com/{no_street}-{street_name}-{street_type}-{suburb}-(ID{pfi})-Detailed-Property-Report.pdf'
     parcel_pfi_url = f'https://www.land.vic.gov.au/property-report/property-dashboard2/get_related_property.json?query={pfi}'
     parcel_pfi = urllib.request.urlopen(parcel_pfi_url).read()
@@ -67,6 +92,7 @@ def get_key(property: PropertyAddress):
             "postcode": postcode,
             "key": key,
             "pfi": pfi,
+            "search_website": search_website,
             "detailed_property_report_url": detailed_property_report_url,
             "parcel_pfi": parcel_pfi,
             "data_reporter": data_reporter,
@@ -74,7 +100,7 @@ def get_key(property: PropertyAddress):
 
     }
     return data
-"""
+
     
 
 # @app.post("/createposts")
@@ -82,10 +108,47 @@ def get_key(property: PropertyAddress):
 #     print(payload)
 #     return {"new_post": f"title: {payload['title']}; content: {payload['content']}"}
 
-@app.post("/createposts")
+@app.post("/posts", status_code=status.HTTP_201_CREATED)
 def create_posts(new_post: Post):
-    print(new_post)
-    print(new_post.dict()) # if would extract from json and print out as value
-    return {"new_post": "new posts"}
+    post_dict = new_post.dict()
+    post_dict['id'] = randrange(0, 100000)
+    my_posts.append(post_dict)
+    return {"data": post_dict}
 
-# title str, content str, category, Bool published
+@app.get("/posts/{id}")
+def get_post(id: int, response: Response): # add int to convert str to integer
+    
+    post = find_post(id)
+    if not post:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
+                            detail=f"post with id: {id} was not found")
+        # response.status_code = status.HTTP_404_NOT_FOUND
+        # return {"message": f"post with id: {id} was not found"}
+
+    return {"post_detail": post}
+
+@app.delete("/posts/{id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_post(id: int, response: Response):
+    # deleting post
+    index = find_index_post(id)
+    if not index:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"post with id: {id} doesn't exist")
+    my_posts.pop(index)
+    # when deleting data, we dont want to return any data 
+    # instead, we just send the status back
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+@app.put("/posts/{id}")
+def update_post(id: int, post: Post):
+    index = find_index_post(id)
+    print(index)
+    if index == None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"post with id: {id} doesn't exist")
+
+    post_dict = post.dict()
+    post_dict['id'] = id
+    my_posts[index] = post_dict
+
+    return {"message": "update the post"}
