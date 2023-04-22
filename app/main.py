@@ -117,7 +117,7 @@ def get_pdf(property: PropertyAddress):
 
     return RedirectResponse(property_pdf_url)
 
-@app.get("/property/property_pdf")
+@app.get("/property/planning_pdf")
 def get_pdf(property: PropertyAddress):
 
     property = Property(
