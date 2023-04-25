@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 # import time
 # import psycopg2
 from psycopg2.extras import RealDictCursor
-from config import settings
+from .config import settings
 
 username = settings.database_username
 password = settings.database_password
