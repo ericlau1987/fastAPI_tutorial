@@ -3,7 +3,7 @@ from fastapi.params import Body
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional, List
 from random import randrange
-import models
+import app.models as models
  
 from database import engine, SessionLocal, get_db
 from routers import post, user, property, auth, vote
