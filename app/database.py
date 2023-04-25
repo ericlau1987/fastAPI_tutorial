@@ -1,8 +1,8 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-import time
-import psycopg2
+# import time
+# import psycopg2
 from psycopg2.extras import RealDictCursor
 from config import settings
 
