@@ -6,3 +6,6 @@
 
 2. init alembic
 `alembic init alembic`
+
+3. export requriement 
+`pip list --format=freeze > requirements.txt`
