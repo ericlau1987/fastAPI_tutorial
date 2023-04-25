@@ -1,13 +1,9 @@
 from fastapi import FastAPI
-from fastapi.params import Body
 from fastapi.middleware.cors import CORSMiddleware
-from typing import Optional, List
-from random import randrange
 from . import models
-
- 
-from database import engine, SessionLocal, get_db
-from routers import post, user, property, auth, vote
+from .database import engine
+from .routers import post, user, auth, vote, property
+from .config import settings
 
 models.Base.metadata.create_all(bind=engine)
 

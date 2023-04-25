@@ -1,11 +1,9 @@
-import models, schemas
+from .. import models, schemas, utils
 from fastapi import FastAPI, Response, status, HTTPException, Depends, APIRouter
 from fastapi.responses import FileResponse, RedirectResponse
 from sqlalchemy.orm import Session
-from database import get_db
+from ..database import get_db
 from typing import Optional, List
-import utils
-
 
 router = APIRouter(
     prefix="/property",
