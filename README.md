@@ -12,3 +12,5 @@ uvicorn app.main:app --reload
 
 3. export requriement 
 `pip list --format=freeze > requirements.txt`
+
+git push heroku master:main
