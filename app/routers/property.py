@@ -10,6 +10,7 @@ router = APIRouter(
     tags = ['Property'] # this is to show a group in property
 )
 
+
 @router.get("/property_pdf")
 def get_pdf(no_street: str,
             street_name: str,
@@ -24,9 +25,6 @@ def get_pdf(no_street: str,
         suburb = suburb,
         postcode = postcode
     ) 
-    # property = utils.Property(
-    #     **property.dict()
-    # )
 
     has_pfi = property.check_address_exist()
     if not has_pfi:
