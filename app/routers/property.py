@@ -11,18 +11,10 @@ router = APIRouter(
 )
 
 @router.get("/pfi")
-def get_pdf(no_street: str,
-            street_name: str,
-            street_type: str,
-            suburb: str,
-            postcode: int):
+def get_pdf(address: str):
 
     property = utils.Property(
-        no_street = no_street,
-        street_name = street_name,
-        street_type = street_type,
-        suburb = suburb,
-        postcode = postcode
+        address = address
     ) 
 
     has_pfi = property.check_address_exist()
@@ -35,18 +27,10 @@ def get_pdf(no_street: str,
     
 
 @router.get("/property_pdf")
-def get_pdf(no_street: str,
-            street_name: str,
-            street_type: str,
-            suburb: str,
-            postcode: int):
+def get_pdf(address: str):
 
     property = utils.Property(
-        no_street = no_street,
-        street_name = street_name,
-        street_type = street_type,
-        suburb = suburb,
-        postcode = postcode
+        address = address
     ) 
 
     has_pfi = property.check_address_exist()
@@ -58,18 +42,10 @@ def get_pdf(no_street: str,
         return RedirectResponse(property_pdf_url)
 
 @router.get("/planning_pdf")
-def get_pdf(no_street: str,
-            street_name: str,
-            street_type: str,
-            suburb: str,
-            postcode: int):
+def get_pdf(address: str):
 
     property = utils.Property(
-        no_street = no_street,
-        street_name = street_name,
-        street_type = street_type,
-        suburb = suburb,
-        postcode = postcode
+        address = address
     )
 
     has_pfi = property.check_address_exist()
@@ -82,18 +58,10 @@ def get_pdf(no_street: str,
         return RedirectResponse(planning_pdf_url)
     
 @router.get("/related_property_data")
-def get_pdf(no_street: str,
-            street_name: str,
-            street_type: str,
-            suburb: str,
-            postcode: int):
+def get_pdf(address: str):
 
     property = utils.Property(
-        no_street = no_street,
-        street_name = street_name,
-        street_type = street_type,
-        suburb = suburb,
-        postcode = postcode
+        address = address
     )
 
     has_pfi = property.check_address_exist()
@@ -106,18 +74,10 @@ def get_pdf(no_street: str,
         return {"data": data}
     
 @router.get("/get_street_address")
-def get_pdf(no_street: str,
-            street_name: str,
-            street_type: str,
-            suburb: str,
-            postcode: int):
+def get_pdf(address: str):
 
     property = utils.Property(
-        no_street = no_street,
-        street_name = street_name,
-        street_type = street_type,
-        suburb = suburb,
-        postcode = postcode
+        address = address
     )
 
     has_pfi = property.check_address_exist()
@@ -130,18 +90,10 @@ def get_pdf(no_street: str,
         return {"data": data}
     
 @router.get("/property_report_data")
-def get_pdf(no_street: str,
-            street_name: str,
-            street_type: str,
-            suburb: str,
-            postcode: int):
+def get_pdf(address: str):
 
     property = utils.Property(
-        no_street = no_street,
-        street_name = street_name,
-        street_type = street_type,
-        suburb = suburb,
-        postcode = postcode
+        address = address
     )
 
     has_pfi = property.check_address_exist()
@@ -154,18 +106,10 @@ def get_pdf(no_street: str,
         return data
     
 @router.get("/parcel_address")
-def get_pdf(no_street: str,
-            street_name: str,
-            street_type: str,
-            suburb: str,
-            postcode: int):
+def get_pdf(address: str):
 
     property = utils.Property(
-        no_street = no_street,
-        street_name = street_name,
-        street_type = street_type,
-        suburb = suburb,
-        postcode = postcode
+        address = address
     )
 
     has_pfi = property.check_address_exist()
@@ -178,18 +122,10 @@ def get_pdf(no_street: str,
         return {"data": data}
 
 @router.get("/property_results")
-def get_pdf(no_street: str,
-            street_name: str,
-            street_type: str,
-            suburb: str,
-            postcode: int):
+def get_pdf(address: str):
 
     property = utils.Property(
-        no_street = no_street,
-        street_name = street_name,
-        street_type = street_type,
-        suburb = suburb,
-        postcode = postcode
+        address = address
     )
 
     has_pfi = property.check_address_exist()
@@ -255,6 +191,6 @@ def get_pdf(no_street: str,
                 }
             ]
         
-        return result
+        return {"data": result}
         
             
