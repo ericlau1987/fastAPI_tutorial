@@ -146,16 +146,18 @@ def get_pdf(address: str):
         
         for data in property_report_data:
             if data['paramName'] == 'overlays':
-                # lga = data['value']['features'][0]['attributes']
-                lga = data['value']['features'][0]['attributes']["LGA"]
-                overlay_zone_code_group_label = data['value']['features'][0]['attributes']["ZONE_CODE_GROUP_LABEL"]
+                if data['value']['features']:
+                    overlay_zone_code_group_label = data['value']['features'][0]['attributes']["ZONE_CODE_GROUP_LABEL"]
 
             if data['paramName'] == 'zones':
-                zone_code_group_label = data['value']['features'][0]['attributes']["ZONE_CODE_GROUP_LABEL"]
-                zone_desc = data['value']['features'][0]['attributes']["ZONE_DESCRIPTION"]
+                if data['value']['features']:
+                    lga = data['value']['features'][0]['attributes']["LGA"]
+                    zone_code_group_label = data['value']['features'][0]['attributes']["ZONE_CODE_GROUP_LABEL"]
+                    zone_desc = data['value']['features'][0]['attributes']["ZONE_DESCRIPTION"]
 
             if data['paramName'] == 'searchFeature':
-                council_prop_num = data['value']['features'][0]['attributes']["PROP_PROPNUM"]
+                if data['value']['features']:
+                    council_prop_num = data['value']['features'][0]['attributes']["PROP_PROPNUM"]
 
         spi = multi_parcel_address_data[0]['spi']
         lot = multi_parcel_address_data[0]['lot']
