@@ -10,20 +10,23 @@ router = APIRouter(
     tags = ['Property'] # this is to show a group in property
 )
 
-
 @router.get("/property_pdf")
-def get_pdf(property: schemas.PropertyAddress):
+def get_pdf(no_street: str,
+            street_name: str,
+            street_type: str,
+            suburb: str,
+            postcode: int):
 
-    # property = utils.Property(
-    #     no_street = property.no_street,
-    #     street_name = property.street_name,
-    #     street_type = property.street_type,
-    #     suburb = property.suburb,
-    #     postcode = property.postcode
-    # ) 
     property = utils.Property(
-        **property.dict()
-    )
+        no_street = no_street,
+        street_name = street_name,
+        street_type = street_type,
+        suburb = suburb,
+        postcode = postcode
+    ) 
+    # property = utils.Property(
+    #     **property.dict()
+    # )
 
     has_pfi = property.check_address_exist()
     if not has_pfi:
@@ -34,14 +37,18 @@ def get_pdf(property: schemas.PropertyAddress):
         return RedirectResponse(property_pdf_url)
 
 @router.get("/planning_pdf")
-def get_pdf(property: schemas.PropertyAddress):
+def get_pdf(no_street: str,
+            street_name: str,
+            street_type: str,
+            suburb: str,
+            postcode: int):
 
     property = utils.Property(
-        no_street = property.no_street,
-        street_name = property.street_name,
-        street_type = property.street_type,
-        suburb = property.suburb,
-        postcode = property.postcode
+        no_street = no_street,
+        street_name = street_name,
+        street_type = street_type,
+        suburb = suburb,
+        postcode = postcode
     )
 
     has_pfi = property.check_address_exist()
