@@ -1,0 +1,32 @@
+version: "3"
+services: 
+    api:
+        build: . 
+        depends_on: 
+            - postgres
+        ports: 
+            - 8000:8000
+        volumes:
+            - ./:/Users/liuyifu/src/app:ro
+        # env_file:
+        #   - ./.env
+        environment:
+        - database_hostname=postgres 
+        - database_port=5432 
+        - database_password=Bbfhansen2266728!
+        - database_name=fastapi
+        - database_username=postgres
+        - secret_key=09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7 
+        - algorithm=HS256 
+        - access_token_expire_minutes=60
+
+    postgres:
+      image: postgres
+      environment:
+          - POSTGRES_PASSWORD=Bbfhansen2266728!
+          - POSTGRES_DB=fastapi
+      volumes:
+        - postgres-db:/var/lib/postgresql/data
+
+volumes:
+  postgres-db:
