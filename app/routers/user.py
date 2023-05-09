@@ -19,6 +19,7 @@ def create_users(user: schemas.UserCreate, db: Session = Depends(get_db)):
     user.password = hashed_password
     new_user = models.User(**user.dict())
     new_user_email = user.email
+    # check whether the email exists in database
     email = db.query(models.User.email).filter(models.User.email == new_user_email).first()
     if email:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT,
