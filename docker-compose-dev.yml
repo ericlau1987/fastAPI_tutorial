@@ -23,12 +23,19 @@ services:
         - access_token_expire_minutes=60
 
     postgres:
-      image: postgres
-      environment:
-          - POSTGRES_PASSWORD=Bbfhansen2266728!
-          - POSTGRES_DB=fastapi
-      volumes:
-        - postgres-db:/var/lib/postgresql/data
+        image: postgres
+        environment:
+            - POSTGRES_PASSWORD=Bbfhansen2266728!
+            - POSTGRES_DB=fastapi
+        volumes:
+            - postgres-db:/var/lib/postgresql/data
+    
+        ports:
+            - 5432:5432
+
+        expose:
+            - 5432
+
 
 volumes:
   postgres-db:
