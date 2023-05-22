@@ -17,7 +17,7 @@ depends_on = None
 
 
 def upgrade() -> None:
-    op.create_table('users',
+    op.create_table('comparison_lists',
                     sa.Column('id', sa.Integer(), nullable=False),
                     sa.Column('user_id', sa.String(), nullable=False),
                     sa.Column('place_id',sa.String(), nullable=False),
@@ -26,7 +26,8 @@ def upgrade() -> None:
                     sa.Column('created_at', sa.TIMESTAMP(timezone=True),
                               server_default=sa.text('now()'), nullable=False),
                     sa.PrimaryKeyConstraint('id'),
-                    sa.UniqueConstraint('id')
+                    sa.UniqueConstraint('id'),
+                    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ondelete='CASCADE'),
                     )
 
 
