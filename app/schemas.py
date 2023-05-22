@@ -59,7 +59,7 @@ class UserCreate(BaseModel):
     password: str
 
 class UserLogin(BaseModel):
-    email: EmailStr
+    username: EmailStr
     password: str
 
 class Token(BaseModel):
