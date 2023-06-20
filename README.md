@@ -14,3 +14,6 @@ uvicorn app.main:app --reload
 `pip list --format=freeze > requirements.txt`
 
 git push heroku master:main
+
+4. run docker
+`docker-compose -f docker-compose-dev.yml up`
