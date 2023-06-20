@@ -31,10 +31,10 @@ services:
             - postgres-db:/var/lib/postgresql/data
     
         ports:
-            - 5432:5432
+            - 5431:5431
 
         expose:
-            - 5432
+            - 5431
 
 
 volumes:

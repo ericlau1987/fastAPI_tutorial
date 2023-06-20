@@ -93,6 +93,3 @@ class Property:
         multi_parcel_address_url = f'https://www.land.vic.gov.au/property-report/property-dashboard2/get_multiple_parcel_address.json?query={parcel_pfi}'
         
         return multi_parcel_address_url
-
-
-
