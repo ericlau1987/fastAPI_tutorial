@@ -16,5 +16,11 @@ uvicorn app.main:app --reload
 git push heroku master:main
 
 4. run docker
-`docker-compose -f docker-compose-dev.yml up` -- show reloading information in cmd
+`docker-compose -f docker-compose-dev.yml up` -- show reloading information in cmd <br>
 `docker-compose -f docker-compose-dev.yml up -d` -- dont show reloading information in cmd
+5. deactivate conda virtual environment
+`conda deactivate`
+6. activate conda virtual environment in current directory
+`conda activate ./venv`
+7. run pytest
+`pytest -v -s` 
